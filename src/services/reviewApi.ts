@@ -1,20 +1,14 @@
 import api from "./api";
+import type { CreateReviewPayload } from "../types/review";
 
 export const getReviewsApi = (
-    companyId: string
+  companyId: string
 ) => {
-
-    return api.get(
-        `/review/${companyId}`
-    );
+  return api.get(`/review/${companyId}`);
 };
 
 export const createReviewApi = (
-    data: any
+  data: CreateReviewPayload
 ) => {
-
-    return api.post(
-        "/review",
-        data
-    );
+  return api.post("/review", data);
 };

@@ -1,22 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
+import type { Company } from "../../types/company";
 
-const initialState={
+interface CompanyState {
+  companies: Company[];
+  loading: boolean;
+}
 
-companies:[],
-loading:false
-
+const initialState: CompanyState = {
+  companies: [],
+  loading: false,
 };
 
-const companySlice=
-createSlice({
-
-name:"company",
-
-initialState,
-
-reducers:{}
-
+const companySlice = createSlice({
+  name: "company",
+  initialState,
+  reducers: {},
 });
 
-export default
-companySlice.reducer;
+export default companySlice.reducer;
