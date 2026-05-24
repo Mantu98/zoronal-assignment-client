@@ -1,31 +1,94 @@
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+
 import MainLayout from "../../layouts/MainLayout";
 
+import SearchBar from "../../components/company/SearchBar";
+import CompanyCard from "../../components/company/CompanyCard";
+
+import Loader from "../../components/common/Loader";
+import EmptyState from "../../components/common/EmptyState";
+
+import { getCompaniesApi } from "../../services/companyApi";
+
+import type { Company } from "../../types/company";
+
 const Home = () => {
+  const [companies, setCompanies] = useState<Company[]>([]);
+
+  const [search, setSearch] = useState("");
+
+  const [loading, setLoading] = useState(false);
+
+  const fetchCompanies = async () => {
+    try {
+      setLoading(true);
+
+      const response = await getCompaniesApi(1, 10, search);
+
+      setCompanies(response.data.data.companies);
+    } catch {
+      toast.error("Failed to load companies");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      fetchCompanies();
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [search]);
+
   return (
     <MainLayout>
-      <div className="space-y-3">
-        <h1
-          className="
-          text-3xl
-          sm:text-4xl
-          lg:text-5xl
-          font-bold
-          leading-tight
-          "
-        >
-          Find & Review Companies
-        </h1>
+      <div className="space-y-6">
+        <div>
+          <h1
+            className="
+text-3xl
+sm:text-4xl
+font-bold
+"
+          >
+            Find & Review Companies
+          </h1>
 
-        <p
-          className="
-          text-sm
-          sm:text-base
-          text-gray-500
-          max-w-2xl
-          "
-        >
-          Explore ratings and reviews from users
-        </p>
+          <p
+            className="
+text-gray-500
+mt-2
+"
+          >
+            Explore reviews from users
+          </p>
+        </div>
+
+        <SearchBar value={search} onChange={setSearch} />
+
+        {loading && <Loader />}
+
+        {!loading && companies.length === 0 && (
+          <EmptyState title="No company found" />
+        )}
+
+        {!loading && companies.length > 0 && (
+          <div
+            className="
+grid
+grid-cols-1
+sm:grid-cols-2
+lg:grid-cols-3
+gap-6
+"
+          >
+            {companies.map((company) => (
+              <CompanyCard key={company._id} company={company} />
+            ))}
+          </div>
+        )}
       </div>
     </MainLayout>
   );

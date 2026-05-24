@@ -2,9 +2,13 @@ export interface Company {
   _id: string;
   name: string;
   logo?: string;
-  description: string;
+  location: string;
+  city: string;
+  foundedOn?: string;
   overallRating: number;
   totalReviews: number;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface Pagination {
