@@ -1,8 +1,8 @@
-import { Star } from "lucide-react";
+// import { Star } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 import type { Company } from "../../types/company";
-import { FALLBACK_LOGO } from "../../utils/constants";
+// import { FALLBACK_LOGO } from "../../utils/constants";
 
 interface CompanyCardProps {
   company: Company;
@@ -24,7 +24,7 @@ const CompanyCard = ({ company }: CompanyCardProps) => {
       transition
       "
     >
-      <div className="flex items-center gap-4">
+      {/* <div className="flex items-center gap-4">
         <img
           src={company.logo || FALLBACK_LOGO}
           alt={company.name}
@@ -80,7 +80,7 @@ const CompanyCard = ({ company }: CompanyCardProps) => {
         "
       >
         {company.description}
-      </p>
+      </p> */}
     </div>
   );
 };

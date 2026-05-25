@@ -12,6 +12,7 @@ import EmptyState from "../../components/common/EmptyState";
 import { getCompaniesApi } from "../../services/companyApi";
 
 import type { Company } from "../../types/company";
+import AddReviewModal from "../AddReview";
 
 const Home = () => {
   const [companies, setCompanies] = useState<Company[]>([]);
@@ -42,8 +43,30 @@ const Home = () => {
     return () => clearTimeout(timer);
   }, [search]);
 
+  const [isModalOpen, setIsModalOpen] = useState(true);
+
+  const handleReviewSubmit = async (data: any) => {
+    // Simulate an async API network post request
+    await new Promise((resolve) => setTimeout(resolve, 2500));
+    console.log("Submitted Review Data: ", data);
+  };
+
   return (
     <MainLayout>
+      <div className="min-h-screen bg-gray-100 p-8">
+      <button 
+        onClick={() => setIsModalOpen(true)}
+        className="px-4 py-2 bg-purple-600 text-white rounded-md"
+      >
+        Open Review Modal
+      </button>
+
+      <AddReviewModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        onSubmit={handleReviewSubmit}
+      />
+    </div>
       <div className="space-y-6">
         <div>
           <h1
