@@ -1,6 +1,7 @@
 // import { Star } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import type { Company } from "../../types/company";
+import { Star } from "lucide-react";
 
 interface CompanyCardProps {
   company: Company;
