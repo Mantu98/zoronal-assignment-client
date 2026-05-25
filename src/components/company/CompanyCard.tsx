@@ -1,4 +1,4 @@
-import { Star } from "lucide-react";
+// import { Star } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import type { Company } from "../../types/company";
 

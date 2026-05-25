@@ -135,7 +135,6 @@ import { useAppSelector } from "../../hooks/useAppSelector";
 import { addReview, getCompanyById } from "../../redux/company/companyThunk";
 import AddReviewModal from "../../components/modal/AddReviewModal";
 import Navbar from "../../components/navbar/Navbar"; // Assuming you still want the Navbar
-import AddReview from "../AddReview";
 
 const CompanyDetails: React.FC = () => {
   const { id } = useParams();

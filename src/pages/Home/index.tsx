@@ -186,8 +186,8 @@ const Home = () => {
       name: formData.name,
       location: formData.location,
       city: formData.city,
-      foundedOn: formData.foundedOn || undefined, 
-      logo: formData.logo || undefined, 
+      foundedOn: formData.foundedOn || undefined,
+      logo: formData.logo || undefined,
     };
 
     try {
