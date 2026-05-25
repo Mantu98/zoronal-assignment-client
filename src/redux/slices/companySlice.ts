@@ -9,7 +9,6 @@ import type {
   from "../../types/company";
 import { addCompany, addReview, getCompanies, getCompanyById } from "../company/companyThunk";
 import type { Review } from "../../types/review";
-import { getCompanyByIdApi } from "../../services/company.service";
 
 interface CompanyState {
   companies: Company[];
