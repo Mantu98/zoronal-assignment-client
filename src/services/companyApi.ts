@@ -9,3 +9,8 @@ export const getCompaniesApi = (
     `/company?page=${page}&limit=${limit}&search=${search}`
   );
 };
+
+export const createCompanyApi = async (companyData: any) => {
+  const response = await api.post(`/company`, companyData);
+  return response.data;
+};
