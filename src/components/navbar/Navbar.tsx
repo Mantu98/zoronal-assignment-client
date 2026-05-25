@@ -10,11 +10,7 @@ const Navbar = ({ search, setSearch }: NavbarProps) => {
   return (
     <nav className="bg-white border-b sticky top-0 z-50">
       <div className="max-w-[1400px] mx-auto px-6 h-28 flex items-center justify-between gap-8">
-        {/* Logo Section - Now wrapped in a Link */}
-        <Link
-          to="/"
-          className="flex items-center gap-3 hover:opacity-90 transition-opacity"
-        >
+        <Link to="/" className="flex items-center gap-3 hover:opacity-90 transition-opacity" >
           <div className="w-14 h-14 bg-purple-700 rounded-full flex items-center justify-center border-4 border-purple-100">
             <Star size={30} className="text-white" fill="currentColor" />
           </div>

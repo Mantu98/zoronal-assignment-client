@@ -5,9 +5,7 @@ export const getCompaniesApi = (
   limit: number = 10,
   search: string = ""
 ) => {
-  return api.get(
-    `/company?page=${page}&limit=${limit}&search=${search}`
-  );
+  return api.get(`/company?page=${page}&limit=${limit}&search=${search}`);
 };
 
 export const createCompanyApi = async (companyData: any) => {

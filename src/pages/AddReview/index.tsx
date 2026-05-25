@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-// Define the form data structure
 interface ReviewFormData {
   fullName: string;
   subject: string;
@@ -8,34 +7,23 @@ interface ReviewFormData {
   rating: number;
 }
 
-// Component Props
 interface AddReviewModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (data: ReviewFormData) => Promise<void> | void; // Can handle sync or async submit
+  onSubmit: (data: ReviewFormData) => Promise<void> | void;
 }
 
 const AddReviewModal: React.FC<AddReviewModalProps> = ({ isOpen, onClose, onSubmit }) => {
-  // 1. Core Component States
-  const [formData, setFormData] = useState<ReviewFormData>({
-    fullName: '',
-    subject: '',
-    description: '',
-    rating: 4, // Defaulting to 4 stars as shown in your image
-  });
-  
+  const [formData, setFormData] = useState<ReviewFormData>({ fullName: '', subject: '', description: '', rating: 4, });
   const [errors, setErrors] = useState<Partial<Record<keyof ReviewFormData, string>>>({});
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  // Return nothing if the modal is hidden
   if (!isOpen) return null;
 
-  // 2. Input Change Handlers
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    
-    // Dynamically clear errors as the user types
+
     if (errors[name as keyof ReviewFormData]) {
       setErrors((prev) => ({ ...prev, [name]: '' }));
     }
@@ -60,10 +48,10 @@ const AddReviewModal: React.FC<AddReviewModalProps> = ({ isOpen, onClose, onSubm
     }
   };
 
-  // 3. Validation Logic
+  // Validation Logic
   const validateForm = (): boolean => {
     const tempErrors: Partial<Record<keyof ReviewFormData, string>> = {};
-    
+
     if (!formData.fullName.trim()) tempErrors.fullName = 'Full name is required';
     if (!formData.subject.trim()) tempErrors.subject = 'Subject is required';
     if (!formData.description.trim()) tempErrors.description = 'Review description is required';
@@ -73,19 +61,16 @@ const AddReviewModal: React.FC<AddReviewModalProps> = ({ isOpen, onClose, onSubm
     return Object.keys(tempErrors).length === 0;
   };
 
-  // 4. Form Submission Handler
+  //  Form Submission Handler
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateForm()) return;
 
     setIsLoading(true);
     try {
-      // Passes data up to the parent component (e.g., handling API operations)
       await onSubmit(formData);
-      
-      // Reset form fields on successful save
       setFormData({ fullName: '', subject: '', description: '', rating: 4 });
-      onClose(); 
+      onClose();
     } catch (error) {
       console.error('Submission failed:', error);
     } finally {
@@ -97,13 +82,13 @@ const AddReviewModal: React.FC<AddReviewModalProps> = ({ isOpen, onClose, onSubm
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm">
       {/* Modal Card Box */}
       <div className="relative w-full max-w-xl overflow-hidden rounded-[32px] bg-white p-8 shadow-2xl md:p-10">
-        
+
         {/* Top-Left Absolute Decorative Purple Shapes */}
         <div className="absolute -left-10 -top-10 -z-0 h-32 w-32 rounded-full bg-gradient-to-br from-[#7F00FF] to-[#E100FF] opacity-90 blur-[2px]" />
         <div className="absolute -left-4 -top-16 -z-0 h-32 w-32 rounded-full bg-[#7F00FF]/20 backdrop-blur-md" />
 
         {/* Top Right Close Button Cross */}
-        <button 
+        <button
           onClick={onClose}
           type="button"
           className="absolute right-6 top-6 text-gray-400 hover:text-gray-600 transition-colors focus:outline-none"
@@ -119,7 +104,7 @@ const AddReviewModal: React.FC<AddReviewModalProps> = ({ isOpen, onClose, onSubm
           <h2 className="text-center text-[28px] font-bold text-[#111111] mb-6">Add Review</h2>
 
           <form onSubmit={handleSubmit} className="space-y-5">
-            
+
             {/* Full Name Input Field */}
             <div>
               <label className="block text-sm font-medium text-gray-400 mb-1.5">Full Name</label>
@@ -130,9 +115,8 @@ const AddReviewModal: React.FC<AddReviewModalProps> = ({ isOpen, onClose, onSubm
                 onChange={handleInputChange}
                 placeholder="Enter"
                 disabled={isLoading}
-                className={`w-full px-4 py-3 rounded-lg border text-gray-700 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7F00FF]/20 transition-all ${
-                  errors.fullName ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-[#7F00FF]'
-                }`}
+                className={`w-full px-4 py-3 rounded-lg border text-gray-700 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7F00FF]/20 transition-all ${errors.fullName ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-[#7F00FF]'
+                  }`}
               />
               {errors.fullName && <p className="text-red-500 text-xs mt-1">{errors.fullName}</p>}
             </div>
@@ -147,9 +131,8 @@ const AddReviewModal: React.FC<AddReviewModalProps> = ({ isOpen, onClose, onSubm
                 onChange={handleInputChange}
                 placeholder="Enter"
                 disabled={isLoading}
-                className={`w-full px-4 py-3 rounded-lg border text-gray-700 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7F00FF]/20 transition-all ${
-                  errors.subject ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-[#7F00FF]'
-                }`}
+                className={`w-full px-4 py-3 rounded-lg border text-gray-700 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7F00FF]/20 transition-all ${errors.subject ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-[#7F00FF]'
+                  }`}
               />
               {errors.subject && <p className="text-red-500 text-xs mt-1">{errors.subject}</p>}
             </div>
@@ -164,9 +147,8 @@ const AddReviewModal: React.FC<AddReviewModalProps> = ({ isOpen, onClose, onSubm
                 onChange={handleInputChange}
                 placeholder="Description"
                 disabled={isLoading}
-                className={`w-full px-4 py-3 rounded-lg border text-gray-700 placeholder-gray-300 resize-none focus:outline-none focus:ring-2 focus:ring-[#7F00FF]/20 transition-all ${
-                  errors.description ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-[#7F00FF]'
-                }`}
+                className={`w-full px-4 py-3 rounded-lg border text-gray-700 placeholder-gray-300 resize-none focus:outline-none focus:ring-2 focus:ring-[#7F00FF]/20 transition-all ${errors.description ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-[#7F00FF]'
+                  }`}
               />
               {errors.description && <p className="text-red-500 text-xs mt-1">{errors.description}</p>}
             </div>
@@ -174,7 +156,7 @@ const AddReviewModal: React.FC<AddReviewModalProps> = ({ isOpen, onClose, onSubm
             {/* Star Rating Layout Row */}
             <div className="pt-2">
               <h3 className="text-xl font-bold text-[#111111] mb-3">Rating</h3>
-              
+
               <div className="flex items-center justify-between">
                 {/* 5-Star Array Selector */}
                 <div className="flex items-center gap-1.5">
@@ -189,16 +171,15 @@ const AddReviewModal: React.FC<AddReviewModalProps> = ({ isOpen, onClose, onSubm
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
-                        className={`h-9 w-9 transition-colors ${
-                          star <= formData.rating ? 'fill-[#EAB308]' : 'fill-[#E5E7EB]'
-                        }`}
+                        className={`h-9 w-9 transition-colors ${star <= formData.rating ? 'fill-[#EAB308]' : 'fill-[#E5E7EB]'
+                          }`}
                       >
                         <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
                       </svg>
                     </button>
                   ))}
                 </div>
-                
+
                 {/* Dynamically Text Representation */}
                 <span className="text-sm font-medium text-gray-400">
                   {getRatingLabel(formData.rating)}

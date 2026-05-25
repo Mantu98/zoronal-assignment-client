@@ -19,46 +19,47 @@ export const getCompanyById = createAsyncThunk(
     async ({ id }: { id: string }) => {
         const response = await getCompanyByIdApi(id);
         console.log(response);
-        
+
         return response.data;
     }
 );
 
 export const addCompany = createAsyncThunk(
-  "company/addCompany",
-  async (companyData: {
-    name: string;
-    location: string;
-    city: string;
-    foundedOn?: string;
-    logo?: string;
-  }, { rejectWithValue }) => {
-    try {
-      const response = await createCompanyApi(companyData);
-      return response.data; // This matches your backend ApiResponse structure
-    } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || "Failed to add company");
+    "company/addCompany",
+
+    async (companyData: {
+        name: string;
+        location: string;
+        city: string;
+        foundedOn?: string;
+        logo?: string;
+    }, { rejectWithValue }) => {
+        try {
+            const response = await createCompanyApi(companyData);
+            return response.data;
+        } catch (error: any) {
+            return rejectWithValue(error.response?.data?.message || "Failed to add company");
+        }
     }
-  }
 );
 
 export const addReview = createAsyncThunk(
-  "company/addReview",
-  async (reviewData: {
-    companyId: string;
-    reviewerName: string;
-    rating: number;
-    title: string;
-    comment: string;
-    pros: string[];
-    cons: string[];
-  }, { rejectWithValue }) => {
-    try {
-      const response = await createReviewApi(reviewData);
-      return response.data;
-    } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || "Failed to add review");
+    "company/addReview",
+    async (reviewData: {
+        companyId: string;
+        reviewerName: string;
+        rating: number;
+        title: string;
+        comment: string;
+        pros: string[];
+        cons: string[];
+    }, { rejectWithValue }) => {
+        try {
+            const response = await createReviewApi(reviewData);
+            return response.data;
+        } catch (error: any) {
+            return rejectWithValue(error.response?.data?.message || "Failed to add review");
+        }
     }
-  }
 );
 

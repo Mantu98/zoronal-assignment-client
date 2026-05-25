@@ -15,31 +15,16 @@ interface AddReviewModalProps {
   onSubmit: (data: ReviewFormData) => Promise<void> | void;
 }
 
-const AddReviewModal: React.FC<AddReviewModalProps> = ({
-  isOpen,
-  onClose,
-  onSubmit,
-}) => {
-  // 1. Core Component States
-  const [formData, setFormData] = useState<ReviewFormData>({
-    fullName: "",
-    subject: "",
-    description: "",
-    rating: 4, // Defaulting to 4 stars as shown in your image
-  });
+const AddReviewModal: React.FC<AddReviewModalProps> = ({ isOpen, onClose, onSubmit, }) => {
+  const [formData, setFormData] = useState<ReviewFormData>({ fullName: "", subject: "", description: "", rating: 4, });
 
-  const [errors, setErrors] = useState<
-    Partial<Record<keyof ReviewFormData, string>>
-  >({});
+  const [errors, setErrors] = useState<Partial<Record<keyof ReviewFormData, string>>>({});
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   // Return nothing if the modal is hidden
   if (!isOpen) return null;
 
-  // 2. Input Change Handlers
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
 
@@ -74,7 +59,7 @@ const AddReviewModal: React.FC<AddReviewModalProps> = ({
     }
   };
 
-  // 3. Validation Logic
+  //  Validation Logic
   const validateForm = (): boolean => {
     const tempErrors: Partial<Record<keyof ReviewFormData, string>> = {};
 
@@ -89,17 +74,15 @@ const AddReviewModal: React.FC<AddReviewModalProps> = ({
     return Object.keys(tempErrors).length === 0;
   };
 
-  // 4. Form Submission Handler
+  //  Form Submission Handler
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateForm()) return;
 
     setIsLoading(true);
     try {
-      // Passes data up to the parent component (e.g., handling API operations)
       await onSubmit(formData);
 
-      // Reset form fields on successful save
       setFormData({ fullName: "", subject: "", description: "", rating: 4 });
       onClose();
     } catch (error) {
@@ -124,34 +107,17 @@ const AddReviewModal: React.FC<AddReviewModalProps> = ({
           className="absolute right-6 top-6 text-gray-400 hover:text-gray-600 transition-colors focus:outline-none"
           aria-label="Close modal"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M6 18L18 6M6 6l12 12"
-            />
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
 
         {/* Modal Header & Content */}
         <div className="relative z-10 mt-4">
-          <h2 className="text-center text-[28px] font-bold text-[#111111] mb-6">
-            Add Review
-          </h2>
-
+          <h2 className="text-center text-[28px] font-bold text-[#111111] mb-6">Add Review</h2>
           <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Full Name Input Field */}
             <div>
-              <label className="block text-sm font-medium text-gray-400 mb-1.5">
-                Full Name
-              </label>
+              <label className="block text-sm font-medium text-gray-400 mb-1.5">Full Name</label>
               <input
                 type="text"
                 name="fullName"
@@ -159,11 +125,8 @@ const AddReviewModal: React.FC<AddReviewModalProps> = ({
                 onChange={handleInputChange}
                 placeholder="Enter"
                 disabled={isLoading}
-                className={`w-full px-4 py-3 rounded-lg border text-gray-700 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7F00FF]/20 transition-all ${
-                  errors.fullName
-                    ? "border-red-500 focus:border-red-500"
-                    : "border-gray-200 focus:border-[#7F00FF]"
-                }`}
+                className={`w-full px-4 py-3 rounded-lg border text-gray-700 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7F00FF]/20 transition-all ${errors.fullName ? "border-red-500 focus:border-red-500" : "border-gray-200 focus:border-[#7F00FF]"
+                  }`}
               />
               {errors.fullName && (
                 <p className="text-red-500 text-xs mt-1">{errors.fullName}</p>
@@ -172,9 +135,7 @@ const AddReviewModal: React.FC<AddReviewModalProps> = ({
 
             {/* Subject Input Field */}
             <div>
-              <label className="block text-sm font-medium text-gray-400 mb-1.5">
-                Subject
-              </label>
+              <label className="block text-sm font-medium text-gray-400 mb-1.5">Subject</label>
               <input
                 type="text"
                 name="subject"
@@ -182,11 +143,8 @@ const AddReviewModal: React.FC<AddReviewModalProps> = ({
                 onChange={handleInputChange}
                 placeholder="Enter"
                 disabled={isLoading}
-                className={`w-full px-4 py-3 rounded-lg border text-gray-700 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7F00FF]/20 transition-all ${
-                  errors.subject
-                    ? "border-red-500 focus:border-red-500"
-                    : "border-gray-200 focus:border-[#7F00FF]"
-                }`}
+                className={`w-full px-4 py-3 rounded-lg border text-gray-700 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-[#7F00FF]/20 transition-all ${errors.subject ? "border-red-500 focus:border-red-500" : "border-gray-200 focus:border-[#7F00FF]"
+                  }`}
               />
               {errors.subject && (
                 <p className="text-red-500 text-xs mt-1">{errors.subject}</p>
@@ -195,9 +153,7 @@ const AddReviewModal: React.FC<AddReviewModalProps> = ({
 
             {/* Description Textarea Field */}
             <div>
-              <label className="block text-sm font-medium text-gray-400 mb-1.5">
-                Enter your Review
-              </label>
+              <label className="block text-sm font-medium text-gray-400 mb-1.5">Enter your Review</label>
               <textarea
                 name="description"
                 rows={4}
@@ -205,11 +161,8 @@ const AddReviewModal: React.FC<AddReviewModalProps> = ({
                 onChange={handleInputChange}
                 placeholder="Description"
                 disabled={isLoading}
-                className={`w-full px-4 py-3 rounded-lg border text-gray-700 placeholder-gray-300 resize-none focus:outline-none focus:ring-2 focus:ring-[#7F00FF]/20 transition-all ${
-                  errors.description
-                    ? "border-red-500 focus:border-red-500"
-                    : "border-gray-200 focus:border-[#7F00FF]"
-                }`}
+                className={`w-full px-4 py-3 rounded-lg border text-gray-700 placeholder-gray-300 resize-none focus:outline-none focus:ring-2 focus:ring-[#7F00FF]/20 transition-all ${errors.description ? "border-red-500 focus:border-red-500" : "border-gray-200 focus:border-[#7F00FF]"
+                  }`}
               />
               {errors.description && (
                 <p className="text-red-500 text-xs mt-1">
@@ -236,11 +189,8 @@ const AddReviewModal: React.FC<AddReviewModalProps> = ({
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
-                        className={`h-9 w-9 transition-colors ${
-                          star <= formData.rating
-                            ? "fill-[#EAB308]"
-                            : "fill-[#E5E7EB]"
-                        }`}
+                        className={`h-9 w-9 transition-colors ${star <= formData.rating ? "fill-[#EAB308]" : "fill-[#E5E7EB]"
+                          }`}
                       >
                         <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
                       </svg>
@@ -267,25 +217,9 @@ const AddReviewModal: React.FC<AddReviewModalProps> = ({
               >
                 {isLoading ? (
                   // Inline Tailwind Spinner Ring
-                  <svg
-                    className="animate-spin h-5 w-5 text-white"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <circle
-                      className="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                    />
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                    />
+                  <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" >
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                   </svg>
                 ) : (
                   "Save"

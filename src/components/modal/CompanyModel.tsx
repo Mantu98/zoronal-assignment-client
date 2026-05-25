@@ -3,39 +3,28 @@ import { X, MapPin, Loader2 } from "lucide-react"; // Replaced Calendar with Loa
 
 interface CompanyModalProps {
   onClose: () => void;
-  onSubmit: (formData: any) => Promise<void> | void; // Updated to allow Promise for async awaiting
+  onSubmit: (formData: any) => Promise<void> | void;
 }
 
 const CompanyModal = ({ onClose, onSubmit }: CompanyModalProps) => {
-  const [formData, setFormData] = useState({
-    name: "",
-    location: "",
-    foundedOn: "",
-    city: "",
-  });
-
-  // Added a loading state for the spinner
+  const [formData, setFormData] = useState({ name: "", location: "", foundedOn: "", city: "", });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value, }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true); // Start loading spinner
+    setIsSubmitting(true);
 
     try {
-      // await the thunk from Home.tsx to finish
       await onSubmit(formData);
     } catch (error) {
       console.error("Submission failed", error);
     } finally {
-      setIsSubmitting(false); // Stop spinner
+      setIsSubmitting(false);
     }
   };
 

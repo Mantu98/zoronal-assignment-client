@@ -1,132 +1,3 @@
-// import { MapPin, Star } from "lucide-react";
-// import Navbar from "../../components/navbar/Navbar";
-// import { useEffect, useState } from "react";
-// import { useParams } from "react-router-dom";
-// import { useAppDispatch } from "../../hooks/useAppDispatch";
-// import { useAppSelector } from "../../hooks/useAppSelector";
-// import { getCompanyById } from "../../redux/company/companyThunk";
-
-// // import { getCompanyById } from "../../redux/company/companyThunk";
-
-// const CompanyDetails = () => {
-//   const { id } = useParams();
-//   const dispatch = useAppDispatch();
-//   const { selectedCompany, reviews, detailLoading } = useAppSelector(    (state) => state.company,  );
-//   const [search, setSearch] = useState("");
-//   const [showReviewModal, setShowReviewModal] = useState(false);
-
-//   useEffect(() => {
-//     if (id) {
-//       dispatch(getCompanyById({ id }));
-//     }
-//   }, [id]);
-
-//   if (detailLoading || !selectedCompany) {
-//     return (
-//       <div className="min-h-screen flex items-center justify-center">
-//         Loading...
-//       </div>
-//     );
-//   }
-
-//   return (
-//     <div className="min-h-screen bg-gray-50">
-//       <Navbar search={search} setSearch={setSearch} />
-
-//       <div className="max-w-5xl mx-auto p-4 sm:p-6">
-//         <div className="bg-white rounded-[20px] shadow-sm border border-gray-100 p-6 sm:p-8">
-//           {/* HEADER */}
-//           <div className="flex flex-col md:flex-row justify-between gap-6">
-//             <div className="flex gap-4 sm:gap-5">
-//               <div className="w-16 h-16 sm:w-20 sm:h-20 bg-slate-900 rounded-2xl flex items-center justify-center text-white text-2xl font-bold">
-//                 {selectedCompany.name?.charAt(0)}
-//               </div>
-
-//               <div>
-//                 <h1 className="text-lg sm:text-2xl font-bold text-gray-900">
-//                   {selectedCompany.name}
-//                 </h1>
-
-//                 <div className="flex items-center text-gray-500 text-sm mt-1">
-//                   <MapPin size={14} className="mr-1" />
-//                   {selectedCompany.location}
-//                 </div>
-
-//                 <div className="flex items-center gap-2 mt-2">
-//                   <span className="font-bold text-sm">
-//                     {selectedCompany.overallRating || 0}
-//                   </span>
-
-//                   <div className="flex text-yellow-400">
-//                     {[...Array(5)].map((_, i) => (
-//                       <Star key={i} size={14} fill="currentColor" />
-//                     ))}
-//                   </div>
-
-//                   <span className="text-sm text-gray-600">
-//                     {reviews?.length || 0} Reviews
-//                   </span>
-//                 </div>
-//               </div>
-//             </div>
-
-//             <div className="flex flex-col items-end gap-2">
-//               <span className="text-xs text-gray-400">
-//                 Founded on {selectedCompany.foundedOn}
-//               </span>
-
-//               <button
-//                 onClick={() => setShowReviewModal(true)}
-//                 className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm"
-//               >
-//                 + Add Review
-//               </button>
-//             </div>
-//           </div>
-
-//           {/* DIVIDER */}
-//           <div className="h-px bg-gray-100 my-6" />
-
-//           {/* REVIEWS */}
-//           <div className="space-y-6">
-//             <p className="text-xs text-gray-400">
-//               Result Found: {reviews?.length || 0}
-//             </p>
-
-//             {reviews?.map((review: any) => (
-//               <div key={review._id} className="space-y-2">
-//                 <div className="flex justify-between">
-//                   <div className="flex items-center gap-3">
-//                     <img
-//                       src={review.avatar}
-//                       className="w-10 h-10 rounded-full"
-//                     />
-
-//                     <div>
-//                       <p className="font-semibold text-sm">{review.name}</p>
-//                       <p className="text-xs text-gray-400">{review.date}</p>
-//                     </div>
-//                   </div>
-
-//                   <div className="flex text-yellow-400">
-//                     {[...Array(review.rating)].map((_, i) => (
-//                       <Star key={i} size={14} fill="currentColor" />
-//                     ))}
-//                   </div>
-//                 </div>
-
-//                 <p className="text-sm text-gray-600">{review.comment}</p>
-//               </div>
-//             ))}
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default CompanyDetails;
-
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { MapPin, Star } from "lucide-react";
@@ -134,16 +5,12 @@ import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { addReview, getCompanyById } from "../../redux/company/companyThunk";
 import AddReviewModal from "../../components/modal/AddReviewModal";
-import Navbar from "../../components/navbar/Navbar"; // Assuming you still want the Navbar
+import Navbar from "../../components/navbar/Navbar";
 
 const CompanyDetails: React.FC = () => {
   const { id } = useParams();
   const dispatch = useAppDispatch();
-
-  const { selectedCompany, reviews, detailLoading } = useAppSelector(
-    (state) => state.company,
-  );
-
+  const { selectedCompany, reviews, detailLoading } = useAppSelector((state) => state.company,);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [search, setSearch] = useState("");
 
@@ -163,39 +30,26 @@ const CompanyDetails: React.FC = () => {
   // Use backend overallRating if available, otherwise calculate dynamically
   const averageRating = selectedCompany?.overallRating
     ? Number(selectedCompany.overallRating).toFixed(1)
-    : totalReviews
-      ? (
-          safeReviews.reduce((sum, r) => sum + (r.rating || 0), 0) /
-          totalReviews
-        ).toFixed(1)
-      : "0.0";
+    : totalReviews ? (safeReviews.reduce((sum, r) => sum + (r.rating || 0), 0) / totalReviews).toFixed(1) : "0.0";
 
-  // Form Submissions from Modal
-
-  const handleReviewSubmit = async (formData: {
-    fullName: string;
-    subject: string;
-    description: string;
-    rating: number;
-  }) => {
+  const handleReviewSubmit = async (formData: { fullName: string; subject: string; description: string; rating: number; }) => {
     if (!selectedCompany) return;
 
     const backendPayload = {
       companyId: selectedCompany._id,
-      reviewerName: formData.fullName, // Mapped to reviewerName for Zod
+      reviewerName: formData.fullName,
       rating: formData.rating,
-      title: formData.subject, // Mapped to title for Zod
-      comment: formData.description, // Mapped to comment for Zod
-      pros: [], // Required by Zod schema
-      cons: [], // Required by Zod schema
+      title: formData.subject,
+      comment: formData.description,
+      pros: [],
+      cons: [],
     };
 
     try {
-      await dispatch(addReview(backendPayload)).unwrap(); // unwrap throws error if rejected
+      await dispatch(addReview(backendPayload)).unwrap();
       setIsModalOpen(false);
     } catch (error) {
       console.error("Failed to add review:", error);
-      // Optional: Add toast notification here for the user
     }
   };
 
@@ -258,16 +112,8 @@ const CompanyDetails: React.FC = () => {
                       <Star
                         key={i}
                         size={14}
-                        fill={
-                          i < Math.round(Number(averageRating))
-                            ? "currentColor"
-                            : "none"
-                        }
-                        className={
-                          i < Math.round(Number(averageRating))
-                            ? "text-yellow-400"
-                            : "text-gray-200"
-                        }
+                        fill={i < Math.round(Number(averageRating)) ? "currentColor" : "none"}
+                        className={i < Math.round(Number(averageRating)) ? "text-yellow-400" : "text-gray-200"}
                       />
                     ))}
                   </div>
@@ -282,9 +128,7 @@ const CompanyDetails: React.FC = () => {
             <div className="flex flex-col items-start md:items-end justify-between self-stretch mt-4 md:mt-0">
               <span className="text-[12px] text-gray-400">
                 Founded on{" "}
-                {selectedCompany.foundedOn
-                  ? new Date(selectedCompany.foundedOn).toLocaleDateString()
-                  : "-"}
+                {selectedCompany.foundedOn ? new Date(selectedCompany.foundedOn).toLocaleDateString() : "-"}
               </span>
               <button
                 onClick={() => setIsModalOpen(true)}
@@ -349,11 +193,7 @@ const CompanyDetails: React.FC = () => {
                             {review.name || review.reviewerName || "Anonymous"}
                           </h3>
                           <p className="text-xs text-gray-400 mt-0.5">
-                            {review.date || review.createdAt
-                              ? new Date(
-                                  review.date || review.createdAt,
-                                ).toLocaleDateString("en-GB")
-                              : "-"}
+                            {review.date || review.createdAt ? new Date(review.date || review.createdAt).toLocaleDateString("en-GB") : "-"}
                           </p>
                         </div>
                       </div>
@@ -364,14 +204,8 @@ const CompanyDetails: React.FC = () => {
                           <Star
                             key={i}
                             size={14}
-                            fill={
-                              i < (review.rating || 0) ? "currentColor" : "none"
-                            }
-                            className={
-                              i < (review.rating || 0)
-                                ? "text-yellow-400"
-                                : "text-gray-200"
-                            }
+                            fill={i < (review.rating || 0) ? "currentColor" : "none"}
+                            className={i < (review.rating || 0) ? "text-yellow-400" : "text-gray-200"}
                           />
                         ))}
                       </div>
